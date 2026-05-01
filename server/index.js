@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * obsidian-bridge-mcp
+ * obsidian-mcp-web-agent (server)
  *
  * MCP server that drives Obsidian's built-in Web viewer via the Chrome DevTools
  * Protocol (raw CDP over WebSocket). Isolated from chrome-devtools / playwright
@@ -1185,8 +1185,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 (async () => {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  process.stderr.write(`obsidian-bridge-mcp v0.1.0 ready (port ${CDP_PORT})\n`);
+  process.stderr.write(`obsidian-mcp-web-agent v0.4.0 ready (port ${CDP_PORT})\n`);
 })().catch((e) => {
-  process.stderr.write(`obsidian-bridge-mcp fatal: ${e.message}\n`);
+  process.stderr.write(`obsidian-mcp-web-agent fatal: ${e.message}\n`);
   process.exit(1);
 });

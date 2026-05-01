@@ -241,7 +241,7 @@ module.exports = class ClaudeBridgePlugin extends Plugin {
         try {
           await this.reconcileBridgeState();
         } catch (e) {
-          console.error('[claude-browser-bridge] reconcile error', e);
+          console.error('[obsidian-mcp-web-agent] reconcile error', e);
         }
       }, 1500);
     }
@@ -285,14 +285,14 @@ module.exports = class ClaudeBridgePlugin extends Plugin {
 
     this.addSettingTab(new ClaudeBridgeSettingTab(this.app, this));
 
-    console.log('[claude-browser-bridge] loaded; patched=', this.data.patched);
+    console.log('[obsidian-mcp-web-agent] loaded; patched=', this.data.patched);
   }
 
   onunload() {
     // Intentional no-op: we do NOT auto-restore on unload because Obsidian calls
     // onunload both for "user disabled the plugin" AND for "Obsidian is quitting".
     // To fully revert, run "Restore Obsidian shortcuts" then disable the plugin.
-    console.log('[claude-browser-bridge] unloaded');
+    console.log('[obsidian-mcp-web-agent] unloaded');
   }
 
   // ── Bridge state reconciliation ────────────────────────────────────────────
@@ -319,14 +319,14 @@ module.exports = class ClaudeBridgePlugin extends Plugin {
     if (wantEnabled === true && !this.data.patched) {
       // User wants enabled but state drifted (e.g. they ran Restore manually then re-enabled). Re-patch.
       const patched = await this.patchShortcuts();
-      if (patched.length > 0) console.log(`[claude-browser-bridge] re-patched ${patched.length} shortcut(s)`);
+      if (patched.length > 0) console.log(`[obsidian-mcp-web-agent] re-patched ${patched.length} shortcut(s)`);
       return;
     }
 
     if (wantEnabled === false && this.data.patched && (this.data.patchedShortcuts || []).length > 0) {
       // User toggled off in settings — restore.
       const n = await this.restoreShortcuts();
-      if (n > 0) console.log(`[claude-browser-bridge] restored ${n} shortcut(s)`);
+      if (n > 0) console.log(`[obsidian-mcp-web-agent] restored ${n} shortcut(s)`);
       return;
     }
   }
@@ -372,7 +372,7 @@ module.exports = class ClaudeBridgePlugin extends Plugin {
         writeShortcutArgs(sc.path, newArgs);
         patched.push({ path: sc.path, originalArgs: original });
       } catch (e) {
-        console.error('[claude-browser-bridge] failed to patch', sc.path, e);
+        console.error('[obsidian-mcp-web-agent] failed to patch', sc.path, e);
       }
     }
     if (patched.length > 0) {
@@ -393,7 +393,7 @@ module.exports = class ClaudeBridgePlugin extends Plugin {
         writeShortcutArgs(rec.path, rec.originalArgs || '');
         count++;
       } catch (e) {
-        console.error('[claude-browser-bridge] failed to restore', rec.path, e);
+        console.error('[obsidian-mcp-web-agent] failed to restore', rec.path, e);
       }
     }
     this.data.patchedShortcuts = [];
@@ -426,7 +426,7 @@ module.exports = class ClaudeBridgePlugin extends Plugin {
         this.app.commands.executeCommandById('app:quit');
       } catch (e) {
         new Notice('Restart failed: ' + (e.message || e));
-        console.error('[claude-browser-bridge] restart error', e);
+        console.error('[obsidian-mcp-web-agent] restart error', e);
       }
     }).open();
   }
