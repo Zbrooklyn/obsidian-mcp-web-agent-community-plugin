@@ -57,7 +57,7 @@ npm install -g github:Zbrooklyn/obsidian-bridge-mcp
 claude mcp add obsidian-bridge -- obsidian-bridge-mcp
 ```
 
-Restart Claude Code. The 25 `obsidian_*` tools appear.
+Then in any Claude Code session, run `/reload-plugins` — the 25 `obsidian_*` tools appear immediately, no restart needed.
 
 **For Claude Desktop** (GUI), edit your config file:
 
